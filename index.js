@@ -6,7 +6,7 @@ const IMAGE_5 = "https://raw.githubusercontent.com/mtsang9578/cloudflare-images/
 const DESC_1 = "Hi, I'm Mya! I don't have a personal website so I made this mini profile here instead. Click Next to learn more about me!"
 const DESC_2 = "This is my school, Georgia Tech. It's in the beautiful city of Atlanta! I'm a third year in computer science student here with concentrations in AI and Networking."
 const DESC_3 = "My technical interests are in web development and mobile development. Some of my personal interests right now are spending time with my dog, Lucky, and playing video games with my brothers. I also like to bake!"
-const DESC_4 = "That's about it! Thanks for the Cloudflare coding challenge! It was pretty fun to put this together!"
+const DESC_4 = "That's about it! Thanks for the Cloudflare coding challenge!"
 const DESC_5 = "Bonus Picture!"
 
 
@@ -22,9 +22,9 @@ addEventListener('fetch', event => {
  * @param {Request} request
  */
 async function handleRequest(request){
-  let variants = await fetch("https://cfw-takehome.developers.workers.dev/api/variants");
-  let data = await variants.json();
-  let urls = data["variants"];
+  let variants = await fetch("https://cfw-takehome.developers.workers.dev/api/variants")
+  let data = await variants.json()
+  let urls = data["variants"]
   let index = 0
   let cookie = request.headers.get('Cookie')
 
@@ -34,12 +34,12 @@ async function handleRequest(request){
   } else if(cookie && cookie.includes('variant=1')) {
     index = 1
   } else {
-     index = Math.floor(Math.random() * 2);
+     index = Math.floor(Math.random() * 2)
   }
 
   //Add a new cookie to track which variant the user visited
-  let response = await fetch(urls[index]);
-  response = new Response(response.body, response);
+  let response = await fetch(urls[index])
+  response = new Response(response.body, response)
   response.headers.set('Set-Cookie', `variants=${index}`)
 
   //
@@ -52,7 +52,7 @@ async function handleRequest(request){
   .on('h1#title', {
     element(element) {
       element.setInnerContent("Mya's Mini Profile");
-      element.setAttribute("class", element.getAttribute("class") + "font-black m-4");
+      element.setAttribute("class", element.getAttribute("class") + " font-black m-4");
     }
   })
   .on('p#description', {
@@ -70,16 +70,16 @@ async function handleRequest(request){
         </script>
         <div class="p-4 mb-6 bg-gray-200">
               <img height="300px" id="slide" src=\"${IMAGE_1}\">
-        </div>`, {html:true});
+        </div>`, {html:true})
       element.setInnerContent(DESC_1)
       element.setAttribute("class", element.getAttribute("class") + " p-1")
     }
   })
   .on('a#url', {
     element(element) {
-      element.setAttribute('onclick', 'next()');
-      element.setAttribute('href', '#');
-      element.setInnerContent('Next');
+      element.setAttribute('onclick', 'next()')
+      element.setAttribute('href', '#')
+      element.setInnerContent('Next')
     }
   })
   .transform(response);
